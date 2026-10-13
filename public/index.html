@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Expense Tracker</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+<header class="topbar">
+    <h1>Expense Tracker</h1>
+    <p>Manage your daily expenses easily</p>
+</header>
+
+<main class="container">
+
+    <!-- LOGIN AND REGISTRATION -->
+    <section id="authSection" class="card auth-card">
+
+        <h2>Welcome!</h2>
+        <p class="subtitle">Log in or create an account.</p>
+
+        <div class="auth-tabs">
+            <button type="button" id="loginTab" class="tab active">
+                Login
+            </button>
+
+            <button type="button" id="registerTab" class="tab">
+                Register
+            </button>
+        </div>
+
+        <form id="loginForm">
+            <label for="loginEmail">Email</label>
+            <input
+                type="email"
+                id="loginEmail"
+                autocomplete="email"
+                required>
+
+            <label for="loginPassword">Password</label>
+            <input
+                type="password"
+                id="loginPassword"
+                autocomplete="current-password"
+                required>
+
+            <button type="submit" class="primary-btn">
+                Login
+            </button>
+
+            <p id="loginMessage" class="message"></p>
+        </form>
+
+        <form id="registerForm" class="hidden">
+            <label for="registerName">Full Name</label>
+            <input
+                type="text"
+                id="registerName"
+                autocomplete="name"
+                required>
+
+            <label for="registerEmail">Email</label>
+            <input
+                type="email"
+                id="registerEmail"
+                autocomplete="email"
+                required>
+
+            <label for="registerPassword">Password</label>
+            <input
+                type="password"
+                id="registerPassword"
+                minlength="6"
+                autocomplete="new-password"
+                required>
+
+            <button type="submit" class="primary-btn">
+                Create Account
+            </button>
+
+            <p id="registerMessage" class="message"></p>
+        </form>
+
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="hidden">
+
+        <div class="welcome-row">
+            <div>
+                <h2>Hello, <span id="userName">User</span>!</h2>
+                <p id="userEmail" class="user-email"></p>
+            </div>
+
+            <button type="button" id="logoutButton" class="logout-btn">
+                Logout
+            </button>
+        </div>
+
+        <!-- SUMMARY CARDS -->
+        <div class="summary-grid">
+
+            <div class="summary-card">
+                <p>Total Expenses</p>
+                <h2 id="totalAmount">₹0.00</h2>
+            </div>
+
+            <div class="summary-card">
+                <p>Number of Expenses</p>
+                <h2 id="expenseCount">0</h2>
+            </div>
+
+        </div>
+
+        <!-- ADD OR UPDATE EXPENSE -->
+        <section class="card">
+
+            <h2>Add an Expense</h2>
+
+            <form id="expenseForm">
+
+                <label for="title">Expense Name</label>
+                <input
+                    type="text"
+                    id="title"
+                    placeholder="Example: Lunch"
+                    required>
+
+                <label for="amount">Amount (₹)</label>
+                <input
+                    type="number"
+                    id="amount"
+                    min="0.01"
+                    step="0.01"
+                    required>
+
+                <label for="category">Category</label>
+                <select id="category" required>
+                    <option value="">Select Category</option>
+                    <option value="Food">Food</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Education">Education</option>
+                    <option value="Bills">Bills</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Health">Health</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <label for="date">Date</label>
+                <input type="date" id="date" required>
+
+                <button
+                    type="submit"
+                    id="addExpenseButton"
+                    class="primary-btn">
+                    Add Expense
+                </button>
+
+                <p id="expenseMessage" class="message"></p>
+
+            </form>
+
+        </section>
+
+        <!-- EXPENSE HISTORY -->
+        <section class="card">
+
+            <h2>Expense History</h2>
+
+            <div class="filter-controls">
+
+                <label for="searchExpense">Search Expenses</label>
+                <input
+                    type="search"
+                    id="searchExpense"
+                    placeholder="Search by expense name...">
+
+                <label for="filterCategory">Filter by Category</label>
+                <select id="filterCategory">
+                    <option value="">All Categories</option>
+                    <option value="Food">Food</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Education">Education</option>
+                    <option value="Bills">Bills</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Health">Health</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <label for="filterFromDate">From Date</label>
+                <input type="date" id="filterFromDate">
+
+                <label for="filterToDate">To Date</label>
+                <input type="date" id="filterToDate">
+
+                <button
+                    type="button"
+                    id="clearFilters"
+                    class="secondary-btn">
+                    Clear Filters
+                </button>
+
+            </div>
+
+            <div id="emptyMessage" class="empty-message">
+                No expenses added yet.
+            </div>
+
+            <div class="table-wrapper">
+                <table id="expenseTable" class="hidden">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="expenseList"></tbody>
+                </table>
+            </div>
+
+        </section>
+
+        <!-- MONTHLY SUMMARY -->
+        <section class="card">
+            <h2>Monthly Expense Summary</h2>
+
+            <div id="monthlySummary">
+                <p>No monthly summary available.</p>
+            </div>
+        </section>
+
+        <!-- PROFILE MANAGEMENT -->
+        <section class="card">
+            <h2>Profile Management</h2>
+
+            <form id="profileForm">
+
+                <label for="profileName">Name</label>
+                <input type="text" id="profileName" required>
+
+                <label for="profileEmail">Email</label>
+                <input type="email" id="profileEmail" required>
+
+                <button type="submit" class="primary-btn">
+                    Update Profile
+                </button>
+
+                <p id="profileMessage" class="message"></p>
+
+            </form>
+        </section>
+
+    </section>
+
+</main>
+
+<footer>
+    <p>Expense Tracker Project</p>
+</footer>
+
+</body>
+</html>
